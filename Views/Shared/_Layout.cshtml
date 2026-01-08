@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - PureDrop RO Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- CSS -->
+    <link href="~/Content/site.css" rel="stylesheet" />
+</head>
+<body id="top">
+
+    <!-- ===== Navbar ===== -->
+    <header id="navbar">
+        <div class="logo">Pure<span>Drop</span></div>
+
+        <nav>
+            <ul class="nav-links">
+                <li>@Html.ActionLink("Home", "Index", "Index")</li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li class="dropdown">
+                    <a href="#">Pages ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">AMC Plans</a></li>
+                        <li><a href="#">RO Equipments</a></li>
+                        <li><a href="#">Water Testing</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Content -->
+    @RenderBody()
+
+    <!-- ===== Footer ===== -->
+    <footer id="footer">
+        <div class="foot-panel1">
+            <a href="#top" class="back-to-top">Back to Top</a>
+        </div>
+
+        <div class="foot-panel2">
+            <ul>
+                <p>About PureDrop</p>
+                <a href="#">About Us</a>
+                <a href="#">Why Choose Us</a>
+                <a href="#">Our Technicians</a>
+                <a href="#">Customer Reviews</a>
+            </ul>
+
+            <ul>
+                <p>Our Services</p>
+                <a href="#">RO Installation</a>
+                <a href="#">RO Repair</a>
+                <a href="#">AMC Plans</a>
+                <a href="#">Water Testing</a>
+            </ul>
+
+            <ul>
+                <p>Products</p>
+                <a href="#">RO Purifiers</a>
+                <a href="#">RO Filters</a>
+                <a href="#">Membranes</a>
+                <a href="#">Pumps</a>
+            </ul>
+
+            <ul>
+                <p>Support</p>
+                <a href="#">Book Service</a>
+                <a href="#">FAQs</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+            </ul>
+        </div>
+
+        <div class="footer-bottom">
+            © 2025 PureDrop RO Services. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="~/Scripts/site.js"></script>
+</body>
+</html>
