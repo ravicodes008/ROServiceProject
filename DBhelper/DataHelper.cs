@@ -1,10 +1,12 @@
-﻿using System;
+﻿using ROServiceProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 
 namespace ROServiceProject.DataHelper
 {
@@ -258,6 +260,52 @@ namespace ROServiceProject.DataHelper
                 return false;
             }
         }
+
+
+        public static UserModel GetCurrentUser()
+        {
+            UserModel user = null;
+
+            if (HttpContext.Current != null &&
+                HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                HttpCookie authCookie =
+                    HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
+
+                if (authCookie != null)
+                {
+                    FormsAuthenticationTicket ticket =
+                        FormsAuthentication.Decrypt(authCookie.Value);
+
+                    if (ticket != null && !string.IsNullOrEmpty(ticket.UserData))
+                    {
+                        string[] userData = ticket.UserData.Split('|');
+
+                        user = new UserModel
+                        {
+
+                            UserId = Convert.ToInt32(userData[0]),
+                            UserName = userData[1],
+                        };
+                    }
+                }
+            }
+
+            return user;
+        }
+
+
+        public static SqlParameter CreateOutputParameter(string name, SqlDbType type, int size)
+        {
+            return new SqlParameter
+            {
+                ParameterName = name,
+                SqlDbType = type,
+                Size = size,
+                Direction = ParameterDirection.Output
+            };
+        }
+
 
         #endregion
     }

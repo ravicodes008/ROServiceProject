@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Admin Panel</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            padding-top: 20px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            padding: 15px 20px;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .sidebar-menu li {
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+            }
+
+            .sidebar-menu a {
+                display: block;
+                padding: 15px 20px;
+                color: #ecf0f1;
+                text-decoration: none;
+                transition: all 0.3s;
+            }
+
+                .sidebar-menu a:hover,
+                .sidebar-menu a.active {
+                    background-color: rgba(255,255,255,0.1);
+                    border-left: 4px solid #3498db;
+                    padding-left: 16px;
+                }
+
+            .sidebar-menu i {
+                margin-right: 10px;
+                width: 20px;
+                text-align: center;
+            }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: white;
+            padding: 15px 20px;
+            margin: -20px -20px 20px -20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* Cards */
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.08);
+            margin-bottom: 20px;
+        }
+
+            .stat-card .icon {
+                width: 50px;
+                height: 50px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            .stat-card.blue .icon {
+                background-color: #e3f2fd;
+                color: #2196f3;
+            }
+
+            .stat-card.green .icon {
+                background-color: #e8f5e9;
+                color: #4caf50;
+            }
+
+            .stat-card.orange .icon {
+                background-color: #fff3e0;
+                color: #ff9800;
+            }
+
+            .stat-card.purple .icon {
+                background-color: #f3e5f5;
+                color: #9c27b0;
+            }
+
+        /* Table Styling */
+        .table-responsive {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.08);
+        }
+
+        .table thead th {
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        /* Badge Styling */
+        .badge-pending {
+            background-color: #ffc107;
+        }
+
+        .badge-assigned {
+            background-color: #17a2b8;
+        }
+
+        .badge-inprogress {
+            background-color: #007bff;
+        }
+
+        .badge-completed {
+            background-color: #28a745;
+        }
+    </style>
+
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-tint"></i> RO Admin Panel
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="@Url.Action("Index", "Dashboard")">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "ServiceRequest")">
+                    <i class="fas fa-clipboard-list"></i> Service Requests
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "ServiceMan")">
+                    <i class="fas fa-users"></i> Service Men
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Part")">
+                    <i class="fas fa-cogs"></i> Parts Master
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "User")">
+                    <i class="fas fa-user-shield"></i> User Management
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("ServiceReport", "Report")">
+                    <i class="fas fa-chart-bar"></i> Service Report
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("ServiceManReport", "Report")">
+                    <i class="fas fa-chart-line"></i> Service Man Report
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Index")">
+                    <i class="fas fa-globe"></i> Public Website
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Logout", "Account")">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <h4 class="mb-0">@ViewBag.Title</h4>
+            <div class="user-info">
+                <div class="user-avatar">
+                    @if (ViewBag.CurrentUser != null)
+                    {
+                        @ViewBag.CurrentUser.UserName.Substring(0, 1).ToUpper()
+                    }
+                </div>
+                <div>
+                    <strong>
+                        @if (ViewBag.CurrentUser != null)
+                        {
+                            @ViewBag.CurrentUser.UserName
+                        }
+                    </strong>
+                    <br />
+                    <small class="text-muted">
+                        @if (ViewBag.CurrentUser != null)
+                        {
+                            @ViewBag.CurrentUser.Role
+                        }
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success/Error Messages -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle"></i> @TempData["ErrorMessage"]
+                <button type="button" class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+            </div>
+        }
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i> @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <!-- Page Content -->
+        @RenderBody()
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

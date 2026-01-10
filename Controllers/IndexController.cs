@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ROServiceProject.DataHelper;
+using ROServiceProject.Models;
 
 namespace ROServiceProject.Controllers
 {
@@ -14,75 +18,36 @@ namespace ROServiceProject.Controllers
             return View();
         }
 
-        // GET: Index/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Index/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Index/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult ServiceRequest(ServiceRequestModel model)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    SqlParameter[] parameters =
+                    {
+                DbHelper.CreateParameter("@Name", model.Name),
+                DbHelper.CreateParameter("@Mobile", model.Mobile),
+                DbHelper.CreateParameter("@Address", model.Address),
+                DbHelper.CreateParameter("@ProblemDescription", model.ProblemDescription),
+                DbHelper.CreateOutputParameter("@RequestCode", SqlDbType.NVarChar, 10)
+            };
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+                    object requestCode =
+                        DbHelper.ExecuteWithOutputParam("sp_SaveServiceRequest", parameters, "@RequestCode");
+
+                    ViewBag.SuccessMessage =
+                        "Your request has been submitted. Request No: " + requestCode;
+
+                    ModelState.Clear();
+                }
+
                 return View();
             }
-        }
-
-        // GET: Index/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Index/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
+            catch (Exception ex)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Index/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Index/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
+                ViewBag.ErrorMessage = ex.Message;
+                return View(model);
             }
         }
     }
